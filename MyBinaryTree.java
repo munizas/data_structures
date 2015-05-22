@@ -1,3 +1,6 @@
+import java.util.Deque;
+import java.util.ArrayDeque;
+
 public class MyBinaryTree<T> {
     T root;
     MyBinaryTree<T> left, right;
@@ -130,5 +133,34 @@ public class MyBinaryTree<T> {
         if (rightL == 0)
             rightL = -1;
         return Math.max(leftL, rightL);
+    }
+    
+    public static <T> void postOrderPrint(MyBinaryTree<T> tree) {
+        if (tree.getLeft() != null)
+            postOrderPrint(tree.getLeft());
+        if (tree.getRight() != null)
+            postOrderPrint(tree.getRight());
+        System.out.print(" " + tree.getRoot());
+    }
+    
+    public static <T> void preOrderPrint(MyBinaryTree<T> tree) {
+        System.out.print(" " + tree.getRoot());
+        if (tree.getLeft() != null)
+            preOrderPrint(tree.getLeft());
+        if (tree.getRight() != null)
+            preOrderPrint(tree.getRight());
+    }
+    
+    public static <T> void levelOrderPrint(MyBinaryTree<T> tree) {
+        Deque<MyBinaryTree<T>> queue = new ArrayDeque<>();
+        queue.addLast(tree);
+        while (!queue.isEmpty()) {
+            MyBinaryTree<T> cur = queue.removeFirst();
+            System.out.print(" " + cur.getRoot());
+            if (cur.getLeft() != null)
+                queue.addLast(cur.getLeft());
+            if (cur.getRight() != null)
+                queue.addLast(cur.getRight());
+        }
     }
 }
