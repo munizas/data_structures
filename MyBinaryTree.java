@@ -163,4 +163,23 @@ public class MyBinaryTree<T> {
                 queue.addLast(cur.getRight());
         }
     }
+
+    public static <T> void printByLevel(MyBinaryTree<T> tree) {
+        ArrayDeque<MyBinaryTree<T>> curLevel = new ArrayDeque<>();
+        ArrayDeque<MyBinaryTree<T>> nextLevel = new ArrayDeque<>();
+        curLevel.addLast(tree);
+        while (!curLevel.isEmpty()) {
+            MyBinaryTree<T> t = curLevel.removeFirst();
+            System.out.print(t.getRoot() + " ");
+            if (t.getLeft() != null)
+                nextLevel.addLast(t.getLeft());
+            if (t.getRight() != null)
+                nextLevel.addLast(t.getRight());
+            if (curLevel.isEmpty()) {
+                curLevel = nextLevel.clone();
+                nextLevel.clear();
+                System.out.println();
+            }
+        }
+    }
 }
