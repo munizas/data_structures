@@ -1,13 +1,15 @@
 public class MyLinkedList<T> {
     private ListNode<T> nil;
-    private ListNode<T> root;
-    private ListNode<T> cur;
     private int size;
     
     public MyLinkedList() {
         nil = new ListNode<T>();
         nil.setNext(nil);
         nil.setPrev(nil);
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public void insert(T item) {
@@ -30,6 +32,7 @@ public class MyLinkedList<T> {
     public void delete(ListNode<T> node) {
         node.getNext().setPrev(node.getPrev());
         node.getPrev().setNext(node.getNext());
+        size--;
     }
 
     public void deleteItem(T data) {
