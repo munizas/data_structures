@@ -57,8 +57,21 @@ public class MySingleLinkedList {
 	}
 
 	public Integer getMthToLastData(int m) {
-		// TODO
-		return null;
+		Node runner = dummyHead;
+		Node mth = dummyHead;
+		for (int i=0; i<m; i++) {
+			if (runner.getNext() != null)
+				runner = runner.getNext();
+			else
+				return null; // illegal m value passed
+		}
+
+		while (runner.getNext() != null) {
+			runner = runner.getNext();
+			mth = mth.getNext();
+		}
+
+		return mth.getData();
 	}
 
 	/**
