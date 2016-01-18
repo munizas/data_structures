@@ -14,10 +14,11 @@ public class MySingleLinkedList {
 	/**
 	*	Inserts the new node at the beginning of the list
 	*/
-	public void insert(Integer data) {
+	public Node insert(Integer data) {
 		Node node = new Node(dummyHead.getNext(), data);
 		dummyHead.setNext(node);
 		size++;
+		return node;
 	}
 
 	/**
@@ -74,11 +75,26 @@ public class MySingleLinkedList {
 		return mth.getData();
 	}
 
+	public boolean hasCycle() {
+		Node slow = dummyHead.getNext();
+		if (slow == null || slow.getNext() == null)
+			return false;
+		Node fast = slow.getNext();
+
+		while (fast != null && fast.getNext() != null) {
+			if (fast == slow || fast.getNext() == slow)
+				return true;
+			slow = slow.getNext();
+			fast = fast.getNext().getNext();
+		}
+		return false;
+	}
+
 	/**
 	*	Node classes representing a node in a singly linked list.
 	*	Generified to accept any type of data.
 	*/
-	public class Node {
+	public static class Node {
 		private Node next;
 		private Integer data;
 
