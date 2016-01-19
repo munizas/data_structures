@@ -90,6 +90,35 @@ public class MySingleLinkedList {
 		return false;
 	}
 
+	public Node getCycleNode() {
+		Node slow = dummyHead.getNext();
+		if (slow == null || slow.getNext() == null)
+			return null;
+		Node fast = slow.getNext();
+
+		boolean hasCycle = false;
+		while (fast != null && fast.getNext() != null) {
+			if (fast == slow) {
+				hasCycle = true;
+				break;
+			}
+			slow = slow.getNext();
+			fast = fast.getNext().getNext();
+		}
+
+		if (hasCycle) {
+			slow = dummyHead.getNext();
+			fast = fast.getNext();
+			while (slow != fast) {
+				slow = slow.getNext();
+				fast = fast.getNext();
+			}
+			return slow;
+		}
+		else
+			return null;
+	}
+
 	/**
 	*	Node classes representing a node in a singly linked list.
 	*	Generified to accept any type of data.
