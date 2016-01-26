@@ -119,6 +119,20 @@ public class MySingleLinkedList {
 			return null;
 	}
 
+	public MySingleLinkedList reverse() {
+		Node prev = null;
+		Node next = null;
+		Node curr = dummyHead.getNext();
+		while (curr != null) {
+			next = curr.getNext();
+			curr.setNext(prev);
+			prev = curr;
+			curr = next;
+		}
+		dummyHead.setNext(prev);
+		return this;
+	}
+
 	/**
 	*	Node classes representing a node in a singly linked list.
 	*	Generified to accept any type of data.
