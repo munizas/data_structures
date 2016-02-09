@@ -134,6 +134,14 @@ public class MyBinaryTree<T> {
             rightL = -1;
         return Math.max(leftL, rightL);
     }
+
+    public static <T> void inOrderPrint(MyBinaryTree<T> tree) {
+        if (tree.getLeft() != null)
+            inOrderPrint(tree.getLeft());
+        System.out.print(" " + tree.getRoot());
+        if (tree.getRight() != null)
+            inOrderPrint(tree.getRight());
+    }
     
     public static <T> void postOrderPrint(MyBinaryTree<T> tree) {
         if (tree.getLeft() != null)
@@ -181,5 +189,38 @@ public class MyBinaryTree<T> {
                 System.out.println();
             }
         }
+    }
+
+    public static <T> MyBinaryTree<T> buildInOrderTree(T[] input, int min, int max) {
+        if (max < min)
+            return null;
+        int mid = (max+min)/2;
+        MyBinaryTree<T> newNode = new MyBinaryTree<T>(input[mid]);
+        newNode.setLeft(buildInOrderTree(input, min, mid-1));
+        newNode.setRight(buildInOrderTree(input, mid+1, max));
+        return newNode;
+    }
+
+    public static MyBinaryTree<Integer> buildPostOrderTree(Integer[] input, int leftIndex, int rightIndex) {
+        if (rightIndex < leftIndex)
+            return null;
+        MyBinaryTree<Integer> newNode = new MyBinaryTree<Integer>(input[rightIndex]);
+        int lastLeftIndex = findLastLeftIndex(input, leftIndex, rightIndex-1, input[rightIndex]);
+        if (lastLeftIndex > -1) {
+            newNode.setLeft(buildPostOrderTree(input, leftIndex, lastLeftIndex));
+            newNode.setRight(buildPostOrderTree(input, lastLeftIndex+1, rightIndex-1));
+        }
+        return newNode;
+    }
+
+    private static int findLastLeftIndex(Integer[] input, int leftIndex, int rightIndex, int value) {
+        int index = -1;
+        for (int i=leftIndex; i<=rightIndex; i++) {
+            if (input[i]>value) {
+                index = i-1;
+                break;
+            }
+        }
+        return index;
     }
 }
