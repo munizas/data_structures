@@ -213,6 +213,29 @@ public class MyBinaryTree<T> {
         return newNode;
     }
 
+    public static MyBinaryTree<Integer> buildFromInOrderAndPostOrder(int[] inOrder, int lowInOrder, int highInOrder, int[] postOrder, int lowPostOrder, int highPostOrder) {
+        if (highInOrder < lowInOrder || highPostOrder < lowPostOrder)
+            return null;
+
+        MyBinaryTree<Integer> root = new MyBinaryTree<>(postOrder[highPostOrder]);
+        int divideIndex = searchInOrder(inOrder, lowInOrder, highInOrder, postOrder[highPostOrder]);
+        int sizeLeftSubTree = divideIndex - lowInOrder;
+        int sizeRightSubTree = highInOrder - divideIndex;
+
+        root.setRight(buildFromInOrderAndPostOrder(inOrder, divideIndex+1, highInOrder, postOrder, highPostOrder-sizeRightSubTree, highPostOrder-1));
+        root.setLeft(buildFromInOrderAndPostOrder(inOrder, lowInOrder, divideIndex-1, postOrder, highPostOrder-sizeRightSubTree-sizeLeftSubTree, highPostOrder-sizeRightSubTree));
+
+        return root;
+    }
+
+    private static int searchInOrder(int[] inOrder, int lowInOrder, int highInOrder, int target) {
+        for (int i=lowInOrder; i<=highInOrder; i++) {
+            if (inOrder[i] == target)
+                return i;
+        }
+        return lowInOrder;
+    }
+
     private static int findLastLeftIndex(Integer[] input, int leftIndex, int rightIndex, int value) {
         int index = -1;
         for (int i=leftIndex; i<=rightIndex; i++) {
